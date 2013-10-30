@@ -10,7 +10,9 @@ It has been tested on Ubuntu LT 12.04 and should work on 13.04 and 13.10.
 
 To install everything on a single host, on a fresh install you can just run:
 
-  $ ./moloch-install.sh
+    $ git clone https://github.com/dollarampersand/moloch_installer.git
+    $ cd moloch_installer
+    $ ./moloch-install.sh
 
 The script will download everything required to install moloch (no prior checkout of moloch code required).  It will create a directory 'src/' in the home directory of user executing the script.  It will prompt you for sudo password when required.
 
