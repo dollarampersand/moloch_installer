@@ -1,6 +1,7 @@
 #!/bin/bash
 TDIR=/data/moloch
 RUN_AS=moloch
+BUILDDIR=~/src
 
 # Increase limits
 if [ ! -f /etc/security/limits.d/moloch.conf ]; then
@@ -26,7 +27,7 @@ done
 ./moloch-ubuntu-build.sh $TDIR || exit $?
 ./elasticsearch-install.sh $TDIR || exit $?
 
-(cd src/moloch; sudo make install)
+(cd ${BUILDDIR}/moloch; sudo make install)
 
 if [ ! -f "${TDIR}/etc/ipv4-address-space.csv" ]; then
 	wget -P /tmp https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.csv && \
