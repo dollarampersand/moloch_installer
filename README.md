@@ -6,7 +6,7 @@ These scripts are modifications of the AOL Moloch install scripts http://github.
 They are a work in progress.  The attempt is to meet as many moloch requirements using standard
 ubuntu packages, PPA or debs.  The start up scripts have been replaces with upstart configs.  
 
-It has been tested on Ubuntu LT 12.04 and should work on 13.04 and 13.10.
+It has been tested on Ubuntu LTS 12.04 and should work on 13.04 and 13.10.
 
 To install everything on a single host, on a fresh install you can just run:
 
