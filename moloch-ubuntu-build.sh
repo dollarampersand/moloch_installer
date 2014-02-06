@@ -48,19 +48,39 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "###### Adding PPA respositories ######"
-sudo apt-get remove openjdk-7-jre
-# Oracle Java
-sudo add-apt-repository ppa:webupd8team/java
-# Nodejs
-if [ $(lsb_release -sr | cut -f 1 -d.) -lt 13 ];
-then
-	sudo add-apt-repository ppa:chris-lea/node.js
+dpkg -l openjdk-7-jre |grep ^ii > /dev/null
+if [ $? -eq 0 ]; then
+	sudo apt-get remove openjdk-7-jre
 fi
-sudo apt-get -qq update
-sudo apt-get -q install oracle-java7-installer nodejs
+# Nodejs  
+dpkg -l nodejs |grep ^ii > /dev/null
+if [ $? -ne 0 ]; then 
+  if [ $(lsb_release -sr | cut -f 1 -d.) -lt 13 ]; then  
+    sudo add-apt-repository ppa:chris-lea/node.js  
+  else
+    echo "MOLOCH - will use distro version of nodejs"
+  fi
+else
+  echo "MOLOCH - nodejs already installed"
+fi
+
+dpkg -l oracle-java7-installer |grep ^ii > /dev/null
 if [ $? -ne 0 ]; then
-  echo "MOLOCH - apt-get failed"
-  exit 1
+  # Oracle Java  
+  sudo add-apt-repository ppa:webupd8team/java  
+else
+  echo "MOLOCH - Oracle java already installed"
+fi
+
+sudo apt-get -qq update  
+sudo apt-get -q install oracle-java7-installer nodejs npm
+if [ $? -ne 0 ]; then  
+  echo "MOLOCH - apt-get failed"  
+  exit 1  
+fi  
+# fix because ubuntu has another package called node (packet radio)
+if [ ! -e /usr/bin/node ]; then
+  (cd /usr/bin && sudo ln -s nodejs node)
 fi
 
 echo "##### fetching codebase from git ######"
