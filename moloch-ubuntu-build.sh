@@ -53,12 +53,14 @@ if [ $? -eq 0 ]; then
 	sudo apt-get remove openjdk-7-jre
 fi
 # Nodejs  
+NODEPKGS="nodejs"
 dpkg -l nodejs |grep ^ii > /dev/null
 if [ $? -ne 0 ]; then 
   if [ $(lsb_release -sr | cut -f 1 -d.) -lt 13 ]; then  
     sudo add-apt-repository ppa:chris-lea/node.js  
   else
     echo "MOLOCH - will use distro version of nodejs"
+    NODEPKGS="$NODEPKGS npm"
   fi
 else
   echo "MOLOCH - nodejs already installed"
@@ -73,7 +75,7 @@ else
 fi
 
 sudo apt-get -qq update  
-sudo apt-get -q install oracle-java7-installer nodejs npm
+sudo apt-get -q install oracle-java7-installer $NODEPKGS
 if [ $? -ne 0 ]; then  
   echo "MOLOCH - apt-get failed"  
   exit 1  
